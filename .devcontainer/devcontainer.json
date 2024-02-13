@@ -1,0 +1,59 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/kubernetes-helm-minikube
+{
+	"name": "Kubernetes - Minikube-in-Docker",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"dockerComposeFile": "docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/workspace",
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+			"enableNonRootDocker": "true",
+			"moby": "true"
+		},
+		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+			"version": "latest",
+			"helm": "latest",
+			"minikube": "latest"
+		}
+	},	
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash",
+                "workbench.iconTheme": "vscode-icons",
+                "typescript.tsdk": "node_modules/typescript/lib",
+                "typescript.enablePromptUseWorkspaceTsdk": true,
+                "editor.defaultFormatter": "esbenp.prettier-vscode",
+                "editor.formatOnSave": true,
+                "editor.codeActionsOnSave": {
+                  "source.fixAll.eslint": "explicit"
+                }
+            },
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "rvest.vs-code-prettier-eslint",
+                "vscode-icons-team.vscode-icons",
+                "EditorConfig.EditorConfig",
+                "leodevbro.blockman",
+                "ms-kubernetes-tools.vscode-kubernetes-tools",
+                "GitHub.copilot-chat",
+                "GitHub.copilot",
+                "hediet.vscode-drawio"
+            ]
+        }
+    },
+	
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [ 3000, 3001, 3030, 9090 ],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "kubectl version",
+
+	// Use 'postStartCommand' to run commands after the container is created like starting minikube.
+	"postStartCommand": "nohup bash -c 'minikube start &' > minikube.log 2>&1",
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	"remoteUser": "root"
+}
